@@ -1,0 +1,42 @@
+    Modelo Entidad-Relación (ER):
+        Definición: Es un modelo de datos que representa las entidades y las relaciones entre ellas en un sistema. Utiliza entidades para representar objetos del mundo real y relaciones para representar las conexiones entre esos objetos.
+
+    Diagrama Entidad-Relación (DER o ERD):
+        Definición: Es una representación gráfica de un modelo entidad-relación. Utiliza símbolos como rectángulos para entidades, rombos para relaciones y líneas para conectar entidades y relaciones.
+
+    Llave Primaria:
+        Definición: Es un atributo o conjunto de atributos que identifica de manera única a cada instancia de una entidad en una base de datos. No puede contener valores duplicados y suele ser un campo crucial para la integridad de la base de datos.
+
+    Llave Foránea:
+        Definición: Es un campo (o conjunto de campos) en una tabla que hace referencia a la llave primaria de otra tabla. Establece una relación entre dos tablas, donde la llave foránea en una tabla apunta a la llave primaria de otra.
+
+    Relación 1:1 (Uno a Uno):
+        Definición: Indica que una entidad en un extremo de la relación está relacionada con solo una entidad en el otro extremo y viceversa. Es menos común y suele indicar una conexión directa y única entre dos entidades.
+
+    Relación 1: (Uno a Muchos):*
+        Definición: Indica que una entidad en un extremo de la relación está relacionada con varias entidades en el otro extremo, pero cada entidad en este último extremo está relacionada con solo una entidad en el primer extremo. Es una relación más común.
+
+    Relación : (Muchos a Muchos):
+        Definición: Indica que varias entidades en un extremo de la relación están relacionadas con varias entidades en el otro extremo. Se implementa mediante una tabla intermedia que contiene las llaves primarias de ambas entidades, permitiendo así la relación compleja entre los conjuntos de datos.
+
+
+
+            Entidad Estudiantes:
+        Atributos: id_estudiante (Primary Key), nombre, apellido, edad.
+
+    Entidad Materias:
+        Atributos: id_materia (Primary Key), materia, disponible.
+
+    Entidad Calificaciones:
+        Atributos: id_calificacion (Primary Key), id_estudiante (Foreign Key), id_materia (Foreign Key), calificacion.
+        Relaciones:
+            Estudiantes (id_estudiante) -> Calificaciones (id_estudiante)
+            Materias (id_materia) -> Calificaciones (id_materia)
+
+Las relaciones establecidas en el modelo son:
+
+    Estudiantes - Calificaciones: Relación uno a muchos (un estudiante puede tener múltiples calificaciones, pero cada calificación pertenece a un solo estudiante).
+
+    Materias - Calificaciones: Relación uno a muchos (una materia puede tener múltiples calificaciones, pero cada calificación pertenece a una sola materia).
+
+Este es un modelo básico y puede adaptarse según tus necesidades específicas. La primary key de cada entidad se indica con el término "Primary Key", y las foreign keys se indican con "Foreign Key", señalando las relaciones entre las entidades. Recuerda que los modelos entidad-relación pueden tener diferentes niveles de complejidad según los requerimientos del sistema que estás diseñando.
