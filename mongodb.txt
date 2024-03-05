@@ -1,0 +1,68 @@
+
+// Total Usuarios
+db.users.count();
+
+//Listar Usuarios
+db.users.find();
+
+//  Nombres, Apellidos Y  Años De Edad.
+db.users.find({ edad: 20 }, { nombres: 1, apellidos: 1, edad: 1 })
+
+// Mujeres  Entre 20 Y 30 Años De Edad.
+db.users.find({ genero: "F", edad: { $gte: 20, $lte: 30 } })
+
+//  Menos Edad.
+db.users.findOne({}, { _id: 0, nombres: 1, apellidos: 1, edad: 1 }).sort({ edad: 1 })
+
+//  Usuarios Registrados.
+db.users.count()
+
+//  Primeros Usuarios.
+db.users.find().limit(5)
+
+// 10 Últimos Usuarios.
+db.users.find().sort({ _id: -1 }).limit(10)
+
+//  Correo Finalice En .net.
+db.users.find({ correo: /\.net$/ })
+
+//  No Vivan En Colombia.
+db.users.find({ pais: { $ne: "colombia" } })
+
+//  No Vivan En Ecuador Y Panamá.
+db.users.find({ pais: { $nin: ["ecuador", "panama"] } })
+
+//  De Colombia Y Les Gusta El Rock.
+db.users.count({ pais: "colombia", musica: "rock" })
+
+// Actualizar El Género "Metal" A "Carranga".
+db.users.updateMany({ musica: "metal" }, { $set: { musica: "carranga" } })
+
+// Hombres Que Les Guste La "Carranga" Sean De Colombia Y Tengan Entre 10 Y 20 Años De Edad.
+db.users.find({ genero: "M", pais: "colombia", musica: "carranga", edad: { $gte: 10, $lte: 20 } })
+
+// Actualizar Usuarios Que Tengan 99 Años, Nuevo Género Musical "Carranga".
+db.users.updateMany({ edad: 99 }, { $set: { musica: "carranga" } })
+
+// Nombre Inicie Con "A" o "A".
+db.users.find({ nombres: /^a/i })
+
+// Apellido Finalice En "Z" o "Z".
+db.users.find({ apellidos: /z$/i })
+
+// Que Tengan 50 Años De Edad, Nuevo Género  Será NULL.
+db.users.updateMany({ edad: 50 }, { $set: { musica: null } })
+
+//  Usuarios  Género Musical Sea Igual A NULL.
+db.users.find({ musica: null })
+
+//  Suma De Todas Las Edades De La Base De Datos.
+db.users.aggregate([{ $group: { _id: null, totalEdades: { $sum: "$edad" } } }])
+
+// Cuántos Usuarios  De "Ecuador".
+db.users.count({ pais: "ecuador" })
+
+// Cuántos De Colombia Y Les Gusta El Vallenato.
+db.users.count({ pais: "colombia", musica: "vallenato" })
+
+
