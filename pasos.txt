@@ -1,0 +1,204 @@
+Modelado
+
+identificar entidades
+
+    supermercados
+    clientes
+    supermercado_cliente
+    pedidos
+    categorias
+    aseo_limpieza
+    enlatados_conservas
+    lacteos
+    frutas_verduras
+    carnes_pescados
+    panaderia_productos_horneados
+    bebidas_licores
+    snacks_alimentos_procesados
+    cuidado_personal_belleza
+    articulos_hogar_utensilios_cocina
+
+identificar los atributos de las entidades
+  
+
+      supermercados:
+        id_supermercado
+        nombre_supermercado
+        ubicacion
+        horarios_atencion
+        contacto_telefono
+        contacto_correo
+
+    clientes:
+        id_cliente
+        nombre
+        apellido
+        cedula
+        correo
+        whatsapp
+        direccion
+
+    supermercado_cliente:
+        id_supermercado
+        id_cliente
+
+    pedidos:
+        id_pedido
+        id_cliente
+        fecha_pedido
+        total_pedido
+        estado_pedido
+
+    categorias:
+        id_categoria
+        nombre_categoria
+
+    aseo_limpieza, enlatados_conservas, lacteos, frutas_verduras, carnes_pescados, panaderia_productos_horneados, bebidas_licores, snacks_alimentos_procesados, cuidado_personal_belleza, articulos_hogar_utensilios_cocina:
+        id_producto
+        nombre
+        precio
+        cantidad
+        id_categoria
+
+
+
+llaves primarias y fornaeas
+
+    supermercados:
+        Llave primaria: id_supermercado
+
+    clientes:
+        Llave primaria: id_cliente
+
+    supermercado_cliente:
+        Llaves foráneas:
+            id_supermercado (foránea a supermercados)
+            id_cliente (foránea a clientes)
+        Llave primaria compuesta: (id_supermercado, id_cliente)
+
+    pedidos:
+        Llave primaria: id_pedido
+        Llave foránea: id_cliente (foránea a clientes)
+
+    categorias:
+        Llave primaria: id_categoria
+
+    aseo_limpieza, enlatados_conservas, lacteos, frutas_verduras, carnes_pescados, panaderia_productos_horneados, bebidas_licores, snacks_alimentos_procesados, cuidado_personal_belleza, articulos_hogar_utensilios_cocina:
+        Llave primaria: id_producto
+        Llave foránea: id_categoria (foránea a categorias)
+
+
+
+entidades pivote
+
+    supermercado_cliente:
+        Llaves foráneas:
+            id_supermercado (foránea a supermercados)
+            id_cliente (foránea a clientes)
+        Llave primaria compuesta: (id_supermercado, id_cliente)
+
+catlogo
+
+categorias:
+
+    Almacena información sobre las categorías de productos disponibles.
+
+aseo_limpieza, enlatados_conservas, lacteos, frutas_verduras, carnes_pescados, panaderia_productos_horneados, bebidas_licores, snacks_alimentos_procesados, cuidado_personal_belleza, articulos_hogar_utensilios_cocina:
+
+
+tipos de relaciones
+
+Relación uno a muchos:
+
+    En la entidad supermercados, la relación con supermercado_cliente es uno a muchos, ya que un supermercado puede tener muchos clientes.
+
+    En la entidad clientes, la relación con supermercado_cliente también es uno a muchos, ya que un cliente puede estar asociado con varios supermercados.
+
+    En la entidad categorias, la relación con las tablas de productos (como aseo_limpieza o frutas_verduras) es uno a muchos, ya que una categoría puede tener varios productos.
+
+Relación muchos a muchos:
+
+    La entidad supermercado_cliente es una tabla pivote que permite una relación muchos a muchos entre supermercados y clientes, ya que un supermercado puede tener varios clientes y un cliente puede tener asociados varios supermercados.
+
+
+
+    +------------------------+        +------------------------+
+|   supermercados        |        |        clientes        |
+|------------------------|        |------------------------|
+| id_supermercado (PK)   |        | id_cliente (PK)        |
+| nombre_supermercado    |        | nombre                 |
+| ubicacion              |        | apellido               |
+| horarios_atencion      |        | cedula                 |
+| contacto_telefono      |        | correo                 |
+| contacto_correo        |        | whatsapp               |
++------------------------+        | direccion              |
+         |                        +------------------------+
+         |
+         |1
+         |             supermercado_cliente
+         |---------------------------------------
+         |1                                  |N
++------------------------+       +------------------------+
+|  aseo_limpieza         |       |    pedidos             |
+|------------------------|       |------------------------|
+| id_producto (PK)       |       | id_pedido (PK)         |
+| nombre                 |       | id_cliente (FK)        |
+| precio                 |       | fecha_pedido           |
+| cantidad               |       | total_pedido           |
+| id_categoria (FK)      |       | estado_pedido          |
++------------------------+       +------------------------+
+         |                                  |
+         |                                  |
+         |1                                 |1
+         |              categorias           |
+         |----------------------------------|
+         |1                                 |N
++------------------------+       +------------------------+
+|  enlatados_conservas   |       | panaderia_productos_   |
+|------------------------|       |         horneados       |
+| id_producto (PK)       |       |------------------------|
+| nombre                 |       | id_producto (PK)       |
+| precio                 |       | nombre                 |
+| cantidad               |       | precio                 |
+| id_categoria (FK)      |       | cantidad               |
++------------------------+       | id_categoria (FK)      |
+         |                       +------------------------+
+         |1                                  |
+         |              bebidas_licores      |
+         |----------------------------------|
+         |1                                 |N
++------------------------+       +------------------------+
+|  snacks_alimentos_     |       | cuidado_personal_      |
+|    procesados           |       |     belleza            |
+|------------------------|       |------------------------|
+| id_producto (PK)       |       | id_producto (PK)       |
+| nombre                 |       | nombre                 |
+| precio                 |       | precio                 |
+| cantidad               |       | cantidad               |
+| id_categoria (FK)      |       | id_categoria (FK)      |
++------------------------+       +------------------------+
+         |                                  |
+         |1                                 |1
++------------------------+       +------------------------+
+|  frutas_verduras       |       | articulos_hogar_       |
+|------------------------|       | utensilios_cocina      |
+| id_producto (PK)       |       |------------------------|
+| nombre                 |       | id_producto (PK)       |
+| precio                 |       | nombre                 |
+| cantidad               |       | precio                 |
+| id_categoria (FK)      |       | cantidad               |
++------------------------+       | id_categoria (FK)      |
+         |                       +------------------------+
+         |
+         |
+         |N
+         |
++------------------------+
+| carnes_pescados        |
+|------------------------|
+| id_producto (PK)       |
+| nombre                 |
+| precio                 |
+| cantidad               |
+| id_categoria (FK)      |
++------------------------+
