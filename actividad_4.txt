@@ -1,0 +1,112 @@
+/*************************************************************
+ * Investigación:
+ *************************************************************
+ 
+1. VIEWS en MySQL:
+   En MySQL, una VIEW es...
+
+2. Procedimientos Almacenados:
+   Un procedimiento almacenado es...
+
+3. Diferencia entre SQL y NoSQL:
+   SQL (Structured Query Language) y NoSQL...
+
+4. MongoDB:
+   MongoDB es una base de datos NoSQL...
+
+*************************************************************
+ * Ejemplos de VIEWS y Procedimientos Almacenados en MySQL:
+ *************************************************************/
+
+-- Crear una VIEW para mostrar información de clientes activos
+CREATE VIEW vw_clientes_activos AS
+SELECT * FROM clientes WHERE estado = 'activo';
+
+-- Crear una VIEW para mostrar la cantidad de productos en stock
+CREATE VIEW vw_stock_productos AS
+SELECT producto_id, nombre, stock FROM productos;
+
+-- Crear una VIEW para mostrar la información de pedidos recientes
+CREATE VIEW vw_pedidos_recientes AS
+SELECT * FROM pedidos WHERE fecha_pedido >= CURDATE() - INTERVAL 7 DAY;
+
+-- Crear una VIEW para listar empleados por departamento
+CREATE VIEW vw_empleados_por_departamento AS
+SELECT empleado_id, nombre, departamento FROM empleados;
+
+-- Crear una VIEW para mostrar los productos más vendidos
+CREATE VIEW vw_productos_mas_vendidos AS
+SELECT producto_id, nombre, SUM(cantidad) AS total_vendido
+FROM detalles_pedido GROUP BY producto_id ORDER BY total_vendido DESC;
+
+-- Crear un procedimiento para aumentar el precio de los productos en un porcentaje dado
+DELIMITER //
+CREATE PROCEDURE aumentar_precios(IN porcentaje DECIMAL(5,2))
+BEGIN
+    UPDATE productos SET precio = precio + (precio * porcentaje / 100);
+END //
+DELIMITER ;
+
+-- Crear un procedimiento para obtener el total de ventas de un cliente
+DELIMITER //
+CREATE PROCEDURE obtener_total_ventas(IN cliente_id INT, OUT total DECIMAL(10,2))
+BEGIN
+    SELECT SUM(total) INTO total FROM pedidos WHERE cliente_id = cliente_id;
+END //
+DELIMITER ;
+
+-- Crear un procedimiento para insertar un nuevo empleado
+DELIMITER //
+CREATE PROCEDURE insertar_empleado(IN nombre VARCHAR(50), IN salario DECIMAL(8,2), IN departamento VARCHAR(30))
+BEGIN
+    INSERT INTO empleados (nombre, salario, departamento) VALUES (nombre, salario, departamento);
+END //
+DELIMITER ;
+
+-- Crear un procedimiento para eliminar pedidos antiguos
+DELIMITER //
+CREATE PROCEDURE eliminar_pedidos_antiguos()
+BEGIN
+    DELETE FROM pedidos WHERE fecha_pedido < CURDATE() - INTERVAL 30 DAY;
+END //
+DELIMITER ;
+
+-- Crear un procedimiento para actualizar la cantidad en stock de un producto
+DELIMITER //
+CREATE PROCEDURE actualizar_stock(IN producto_id INT, IN cantidad INT)
+BEGIN
+    UPDATE productos SET stock = stock - cantidad WHERE producto_id = producto_id;
+END //
+DELIMITER ;
+
+/*************************************************************
+ * Diferencia entre SQL y NoSQL:
+ *************************************************************
+ 
+SQL (Structured Query Language) y NoSQL...
+
+*************************************************************
+ * MongoDB:
+ *************************************************************
+ 
+MongoDB es una base de datos NoSQL...
+ 
+/*************************************************************
+ * Operaciones en MongoDB:
+ *************************************************************/
+
+// Listar todos los documentos de una colección
+db.miColeccion.find();
+
+// Actualizar un documento por ID
+db.miColeccion.update({ _id: ObjectId("id_del_documento") }, { $set: { campo: nuevo_valor } });
+
+// Eliminar un documento por ID
+db.miColeccion.remove({ _id: ObjectId("id_del_documento") });
+
+// Insertar un nuevo documento
+db.miColeccion.insert({ campo1: valor1, campo2: valor2 });
+
+/*************************************************************
+ * Fin del archivo.
+ *************************************************************/
